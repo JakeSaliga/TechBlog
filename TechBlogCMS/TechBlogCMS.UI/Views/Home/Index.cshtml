@@ -1,0 +1,67 @@
+﻿@using TechBlogCMS.BLL
+@model TechBlogCMS.UI.Models.BlogPostAllVM
+
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+
+
+<div class="row"  style="padding-top:4%">
+  <div class="col-lg-3"></div>
+
+    <div class="col-lg-6" align="center">
+        <div class="blogIntro">
+            <h2> Welcome to the TechBlog!!</h2>
+            <h4 class="lead"> Here you will find my random thoughts on technology, programming, and anything else I may fine relevant or interesting!</h4>
+            <div class="col-lg-3"></div>
+        </div>
+    </div>
+</div>
+    <div class="col-lg-12" >
+        <div class="row" style="padding-top: 2%">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6" id="blogPosts">
+                <h2>5 Most Recent Blog Posts</h2>
+                <button id="allBlogs" type="button" class="btn btn-default">@Html.ActionLink("View All Blog Posts", "ShowAllBlogPost", "DisplayBlogPosts")</button>
+                <br/>
+                @if (Model.BlogPosts.Count > 0)
+                {
+                    foreach (var post in Model.BlogPosts)
+                    {
+                        <table class="table-condensed">
+                            <tr>
+                                <td><h4><b><a href="/DisplayBlogPosts/ShowSinglePost/@post.BlogPostID">@post.PostTitle</a></b></h4></td>
+                                <td><h5><em>@post.DateOfPost.ToLongDateString()</em></h5></td>
+                            </tr>
+                        </table>
+                        <div id="postContent" style="display: none">
+                            @Html.Raw(post.PostContent)
+                            <div id="categoriesOfBlog"></div>
+                        </div>
+                        <button id="showContent" class="btn-link"> Read More...</button>
+                        <hr/>
+                    }
+                }
+                else
+                {
+                    <p>There are no blog posts to display</p>
+                }
+
+            </div>
+            <div class="col-lg-3"></div>
+
+             </div>
+        </div>
+</div>
+@section scripts {
+    <script>
+        $('button').click(function () {
+            $(this).prev('div').toggle();
+            $(this).text('...');
+        });
+    </script>
+}

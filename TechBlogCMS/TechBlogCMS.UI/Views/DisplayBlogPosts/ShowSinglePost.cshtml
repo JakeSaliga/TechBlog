@@ -1,0 +1,59 @@
+﻿@model TechBlogCMS.UI.Models.SingleBlogPostVM
+@{
+    ViewBag.Title = "ShowSinglePost";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-lg-3">
+        </div>
+    <div class="col-lg-8">
+        <br />
+        <h3>@Model.SelectedBlogPost.PostTitle</h3>
+
+        <div>
+            @Html.Label("Date")
+            @Model.SelectedBlogPost.DateOfPost.ToShortDateString()
+
+            <div>
+                @Html.Raw(Model.SelectedBlogPost.PostContent)
+            </div>
+        </div>
+        <hr />
+        <br />
+        <div>
+
+            <h4>@Html.Label("Post a new comment")</h4>
+            @using (Html.BeginForm("PostNewComment", "DisplayBlogPosts", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-group" }))
+            {
+                <div class="form-group">
+
+                    @Html.Label("Nickname: ")
+                    @Html.TextBoxFor(m => m.NewComment.Nickname, new { @class = "form-control" })
+                    <br />
+                    @Html.Label("Comment: ")
+                    <br />
+                    @Html.TextAreaFor(m => m.NewComment.CommentContent, new { @class = "form-control" })
+                    <input type="hidden" id="NewComment_BlogPostID" name="NewComment.BlogPostID" value="@Model.SelectedBlogPost.BlogPostID">
+                </div>
+    <input type="submit" name="Submit" value="Submit" class="btn btn-primary" />
+            }
+            <hr />
+        </div>
+        <h4> @Html.Label("Comments")</h4>
+            @foreach (var comment in Model.Comments)
+            {
+                <table class="table-condensed">
+
+                    <tr>
+                        <td><b> Posted By: @comment.Nickname</b></td>
+                    </tr>
+                    <tr>
+                        <td>@comment.CommentContent</td>
+                    </tr>
+                    <tr><td> <em>Created: @comment.DateOfComment.ToShortDateString()</em></td>
+</tr>
+                </table>
+                <hr />
+            }
+        </div>
+    </div>
